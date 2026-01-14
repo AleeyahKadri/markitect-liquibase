@@ -1,17 +1,17 @@
 plugins {
-    jacoco
-    `java-library`
+  jacoco
+  `java-library`
 }
 
 dependencies {
-    jacocoAgent(libs.org.jacoco.org.jacoco.agent)
-    jacocoAnt(libs.org.jacoco.org.jacoco.ant)
+  jacocoAgent(libs.org.jacoco.org.jacoco.agent)
+  jacocoAnt(libs.org.jacoco.org.jacoco.ant)
 }
 
 jacoco {
-    toolVersion = libs.versions.jacoco.get()
+  toolVersion = libs.versions.jacoco.get()
 }
 
 jacocoTestReport {
-    enabled = false
+  enabled = false
 }

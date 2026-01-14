@@ -1,4 +1,4 @@
 plugins {
-    id("buildlogic.common-conventions")
-    `java-platform`
+  id("buildlogic.common-conventions")
+  `java-platform`
 }
