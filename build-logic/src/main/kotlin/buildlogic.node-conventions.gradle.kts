@@ -21,7 +21,7 @@ node {
     enableTaskRules.set(false)
 }
 
-tasks.nodeSetup {
+tasks.named("nodeSetup") {
     enabled = project == rootProject
 }
 

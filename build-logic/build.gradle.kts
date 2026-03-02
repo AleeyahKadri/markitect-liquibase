@@ -2,6 +2,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.plugin.use.PluginDependency
 
 plugins {
+    `kotlin-dsl`
     `groovy-gradle-plugin`
     alias(libs.plugins.com.diffplug.spotless)
     alias(libs.plugins.com.github.node.gradle.node)
@@ -10,8 +11,6 @@ plugins {
 
 val ci = providers.environmentVariable("CI").isPresent
 val windows = providers.systemProperty("os.name").get().startsWith("Windows", ignoreCase = true)
-val nodeExecutable = nodeSetup.nodeDir.file(if (windows) "node.exe" else "bin/node")
-val npmExecutable = nodeSetup.nodeDir.file(if (windows) "npm.cmd" else "bin/npm")
 val npmInstallCache = rootProject.layout.projectDirectory.dir(".gradle/spotless-npm-install-cache")
 val npmrc = rootProject.file("../config/spotless/.npmrc")
 
@@ -46,7 +45,7 @@ node {
     enableTaskRules.set(false)
 }
 
-nodeSetup.configure {
+tasks.named("nodeSetup") {
     enabled = project == rootProject
 }
 
@@ -77,14 +76,17 @@ spotless {
     format("properties") {
         target("gradle.properties")
         replaceRegex("prePrettier", "(?m)^([ \\t]*[#!])", "# \$1")
+        val nodeSetupTask = tasks.named<com.github.gradle.node.task.NodeSetupTask>("nodeSetup")
+        val nodeExec = nodeSetupTask.map { it.nodeDir.get().file(if (windows) "node.exe" else "bin/node") }
+        val npmExec = nodeSetupTask.map { it.nodeDir.get().file(if (windows) "npm.cmd" else "bin/npm") }
         prettier(
             mapOf(
                 "prettier" to libs.versions.prettier.asProvider().get(),
                 "prettier-plugin-properties" to libs.versions.prettier.plugin.properties.get(),
             ),
         )
-            .nodeExecutable(nodeExecutable)
-            .npmExecutable(npmExecutable)
+            .nodeExecutable(nodeExec)
+            .npmExecutable(npmExec)
             .npmInstallCache(npmInstallCache)
             .npmrc(npmrc)
             .config(
@@ -100,12 +102,12 @@ spotless {
 }
 
 tasks.named("spotlessProperties") {
-    dependsOn(rootProject.tasks.nodeSetup)
+    dependsOn(rootProject.tasks.named("nodeSetup"))
 }
 
 if (!ci) {
-    spotlessCheck.configure {
-        dependsOn(spotlessApply)
+    tasks.named("spotlessCheck") {
+        dependsOn(tasks.named("spotlessApply"))
     }
 }
 
