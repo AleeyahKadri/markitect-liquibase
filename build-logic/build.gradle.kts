@@ -3,7 +3,6 @@ import org.gradle.plugin.use.PluginDependency
 
 plugins {
     `kotlin-dsl`
-    `groovy-gradle-plugin`
     alias(libs.plugins.com.diffplug.spotless)
     alias(libs.plugins.com.github.node.gradle.node)
     idea
