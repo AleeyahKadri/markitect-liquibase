@@ -15,6 +15,7 @@ plugins {
     `java-library`
 }
 
+val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
 val ci = providers.environmentVariable("CI").isPresent
 val epPatchChecks = findProperty("epPatchChecks") as String?
 val epPatchLocation = findProperty("epPatchLocation") as String? ?: "IN_PLACE"
@@ -59,8 +60,8 @@ tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-Xlint:all,-classfile,-processing")
     options.errorprone {
         if (!ci) {
-            isAllDisabledChecksAsWarnings = true
-            isAllSuggestionsAsWarnings = true
+            allDisabledChecksAsWarnings.set(true)
+            allSuggestionsAsWarnings.set(true)
             disable("AddNullMarkedToClass")
             disable("Java8ApiChecker")
             disable("SuppressWarningsWithoutExplanation")

@@ -3,6 +3,7 @@ plugins {
     id("com.diffplug.spotless")
 }
 
+val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
 val ci = providers.environmentVariable("CI").isPresent
 val windows = providers.systemProperty("os.name").get().startsWith("Windows", ignoreCase = true)
 val npmInstallCache = rootProject.layout.projectDirectory.dir(".gradle/spotless-npm-install-cache")

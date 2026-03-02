@@ -6,6 +6,8 @@ plugins {
     id("com.github.spotbugs")
 }
 
+val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
+
 dependencies {
     spotbugs(libs.com.github.spotbugs.spotbugs)
     spotbugsPlugins(libs.com.h3xstream.findsecbugs.findsecbugs.plugin)

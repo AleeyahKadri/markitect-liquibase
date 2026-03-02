@@ -2,6 +2,8 @@ plugins {
     checkstyle
 }
 
+val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
+
 dependencies {
     checkstyle(libs.com.puppycrawl.tools.checkstyle)
 }

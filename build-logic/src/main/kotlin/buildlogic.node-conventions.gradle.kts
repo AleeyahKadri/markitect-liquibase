@@ -2,6 +2,7 @@ plugins {
     id("com.github.node-gradle.node")
 }
 
+val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
 val verification by configurations.creating
 
 dependencies {
