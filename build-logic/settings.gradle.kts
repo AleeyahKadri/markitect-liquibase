@@ -1,33 +1,33 @@
-rootProject.name = 'build-logic'
+rootProject.name = "build-logic"
 
 dependencyResolutionManagement {
     repositories {
         mavenCentral() {
             content {
-                excludeModule 'org.nodejs', 'node'
+                excludeModule("org.nodejs", "node")
             }
         }
         gradlePluginPortal() {
             content {
-                excludeModule 'org.nodejs', 'node'
+                excludeModule("org.nodejs", "node")
             }
         }
         ivy {
-            url = 'https://nodejs.org/dist/'
+            url = uri("https://nodejs.org/dist/")
             patternLayout {
-                artifact 'v[revision]/[artifact](-v[revision]-[classifier]).[ext]'
+                artifact("v[revision]/[artifact](-v[revision]-[classifier]).[ext]")
             }
             metadataSources {
                 artifact()
             }
             content {
-                includeModule 'org.nodejs', 'node'
+                includeModule("org.nodejs", "node")
             }
         }
     }
     versionCatalogs {
-        create('libs') {
-            from files('../gradle/libs.versions.toml')
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
         }
     }
 }
