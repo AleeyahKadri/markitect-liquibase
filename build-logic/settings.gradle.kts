@@ -2,8 +2,12 @@ rootProject.name = "build-logic"
 
 dependencyResolutionManagement {
     repositories {
-        gradlePluginPortal()
         mavenCentral {
+            content {
+                excludeModule("org.nodejs", "node")
+            }
+        }
+        gradlePluginPortal {
             content {
                 excludeModule("org.nodejs", "node")
             }
@@ -19,6 +23,11 @@ dependencyResolutionManagement {
             content {
                 includeModule("org.nodejs", "node")
             }
+        }
+    }
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
         }
     }
 }
